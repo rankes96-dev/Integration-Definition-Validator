@@ -1,0 +1,93 @@
+{
+  "name": "Monday Board Integration",
+  "description": "Reads and creates items in monday.com boards",
+  "version": "1.0.0",
+  "base_url": "https://api.monday.com/v2",
+  "owner": "ai-integration-team",
+  "authentication": {
+    "type": "oauth2_client_credentials",
+    "credential_references": [
+      "MONDAY_CLIENT_ID",
+      "MONDAY_CLIENT_SECRET"
+    ],
+    "authorization_url": null,
+    "token_url": "https://auth.monday.com/oauth/token",
+    "scopes": [
+      "boards:read",
+      "boards:write"
+    ],
+    "api_key_name": null,
+    "api_key_location": null
+  },
+  "timeout_seconds": 15,
+  "retry_policy": {
+    "enabled": true,
+    "max_attempts": 3,
+    "backoff_strategy": "exponential",
+    "retry_on_status_codes": [
+      429,
+      500,
+      502,
+      503,
+      504
+    ]
+  },
+  "commands": [
+    {
+      "name": "get_board_items",
+      "description": "Returns items from a board",
+      "method": "POST",
+      "path": "/v2",
+      "inputs": [
+        {
+          "name": "board_id",
+          "type": "string",
+          "location": "body",
+          "required": true,
+          "description": "Target board ID",
+          "sensitive": false,
+          "example": "123456"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "items",
+          "type": "array",
+          "location": "body",
+          "required": true,
+          "description": "Returned board items",
+          "sensitive": false
+        }
+      ],
+      "expected_status_codes": [
+        200
+      ],
+      "idempotency_key_supported": true,
+      "test_cases": [
+        {
+          "name": "successful board retrieval",
+          "type": "success",
+          "expected_status_code": 200
+        },
+        {
+          "name": "invalid OAuth credential",
+          "type": "auth_failure",
+          "expected_status_code": 401
+        },
+        {
+          "name": "remote server failure",
+          "type": "server_error",
+          "expected_status_code": 500
+        },
+        {
+          "name": "remote request timeout",
+          "type": "timeout"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "monday",
+    "graphql"
+  ]
+}

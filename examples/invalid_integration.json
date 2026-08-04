@@ -1,0 +1,75 @@
+{
+  "name": "Risky Example Integration",
+  "version": "1.0.0",
+  "base_url": "http://api.example.com/v1",
+  "authentication": {
+    "type": "bearer_token",
+    "credential_references": [
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.signature"
+    ],
+    "scopes": []
+  },
+  "timeout_seconds": 45,
+  "retry_policy": {
+    "enabled": true,
+    "max_attempts": 3,
+    "backoff_strategy": "fixed",
+    "retry_on_status_codes": [
+      400,
+      401,
+      500
+    ]
+  },
+  "commands": [
+    {
+      "name": "Get Board Items",
+      "method": "GET",
+      "path": "boards/{board_id}",
+      "inputs": [
+        {
+          "name": "access_token",
+          "type": "string",
+          "location": "body",
+          "required": true,
+          "sensitive": false,
+          "example": "do-not-store-real-secrets-here"
+        },
+        {
+          "name": "access_token",
+          "type": "string",
+          "location": "header",
+          "required": false,
+          "sensitive": false
+        },
+        {
+          "name": "Authorization",
+          "type": "string",
+          "location": "header",
+          "required": true,
+          "sensitive": true
+        }
+      ],
+      "outputs": [],
+      "expected_status_codes": [
+        400
+      ],
+      "idempotency_key_supported": false,
+      "test_cases": []
+    },
+    {
+      "name": "Get Board Items",
+      "method": "DELETE",
+      "path": "/boards",
+      "inputs": [],
+      "outputs": [],
+      "expected_status_codes": [
+        204
+      ],
+      "idempotency_key_supported": false,
+      "test_cases": []
+    }
+  ],
+  "tags": [
+    "intentionally-invalid"
+  ]
+}
