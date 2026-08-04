@@ -5,8 +5,13 @@ definition of an API integration before implementation or release. It performs s
 checks only: the service never calls the described API and never stores the submitted
 definition or report.
 
-> A public Cloud Run deployment has not been created yet, so this README deliberately
-> contains no fabricated live-demo URL.
+## Live deployment
+
+The service is publicly deployed on Google Cloud Run:
+
+- **Swagger UI:** [Interactive API documentation](https://integration-definition-validator-617920646485.europe-west1.run.app/docs)
+- **Health check:** [`GET /health`](https://integration-definition-validator-617920646485.europe-west1.run.app/health)
+- **OpenAPI schema:** [`/openapi.json`](https://integration-definition-validator-617920646485.europe-west1.run.app/openapi.json)
 
 ## Why this exists
 
